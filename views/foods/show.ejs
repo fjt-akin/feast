@@ -1,0 +1,243 @@
+<%- include("../partials/header") %>
+
+<div id="main" class="row">
+	<div class="col-md-3">
+		<p class="lead">Ingridents</p>
+		<ul class="list-group">
+		  <li class="list-group-item active">STEPS</li>
+		  <li class="list-group-item ">1</li>
+		  <li class="list-group-item ">2</li>
+		  <li class="list-group-item ">3</li>
+        </ul>
+	</div>
+	<div class="col-md-9">
+		<div class="img-thumbnail">
+			<img id="img" class="img-fluid" src="<%= food.image%>">
+			<div class="caption">
+				<h4 class="float-right"><%= food.price %>$/meal</h4>
+				<h4><%= food.name%></h4>
+				<div>
+				<div id="totalLikes" class="float-right">
+					<button type="button" class="btn btn-primary" data-toggle="modal" 
+							data-target="#foodLikes"> <span>Total likes: <i class="far fa-thumbs-up"></i>
+						<%= food.likes.length %></span> 
+                    </button>
+				</div>
+					<div class="likeSection" style="padding-bottom: 10px;">
+						<form action="/foods/<%= food._id %>/like" method="POST" id="likeButton">
+						<div class="d-flex" role="group">
+							<% if (currentUser && food.likes.some(function (like) {
+                                 return like.equals(currentUser._id)
+                             })) { %>
+							<button class="btn btn-sm btn-primary">
+								<i class="far fa-thumbs-up"></i> Liked (<%=food.likes.length %>)
+							</button>
+							<% } else { %>
+								<button class="btn btn-sm btn-secondary">
+								<i class="far fa-thumbs-up"></i> Like (<%=food.likes.length %>)
+							</button>
+							<% } %>
+							<button type="button" class="btn btn-primary mx-1" data-toggle="modal" 
+									datatarget="#foodLikes">See more details</button>
+						</div>
+					   </form>
+					</div>
+				</div>
+				<p class="lead"><%= food.description %></p>
+				<p class="font-weight-bold">By Chef <a href="/users/<%= food.author.id%>"><%= food.author.username %></a>,
+					<%= moment(food.createdAt).fromNow() %></p>
+	<% if(currentUser && food.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+			<a class="btn btn-sm btn-warning" href="/foods/<%= food._id %>/edit">Edit</a>
+		    <form class="delete-form" action="/foods/<%= food._id %>?_method=DELETE" method="POST">
+				<button class="btn btn-sm btn-danger">Delete</button>
+		    </form>
+		<% } %>
+	       </div>
+	    </div>
+
+		 <!--Review section-->
+            <div class="img-thumbnail">
+                <div class="caption">
+                    <% if (food.rating === 0) { %>
+                    <h5>
+                        <em>No reviews yet.</em>
+                    </h5>
+                    <% } else { %>
+                    <p>
+                        <span class="far fa-star checked"></span>
+                        <span class="far fa-star <% if (food.rating > 1.5) { %> checked <% } %>"></span>
+                        <span class="far fa-star <% if (food.rating > 2.5) { %> checked <% } %>"></span>
+                        <span class="far fa-star <% if (food.rating > 3.5) { %> checked <% } %>"></span>
+                        <span class="far fa-star <% if (food.rating > 4.5) { %> checked <% } %>"></span>
+                        <em>(total reviews: <%= food.reviews.length %>)</em>
+                    </p>
+                    <p>
+                        Current food rating: <strong><%= food.rating.toFixed(1) %></strong>food
+                    <p><h4>Latest reviews for this campground:</h4></p>
+                    <hr style="margin-top: 0;">
+                    <% food.reviews.slice(0, 5).forEach(function(review){ %>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <%- '<span class="far fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="far fa-star"></span>'.repeat(5 - review.rating) %>
+                            <div>Review by: <strong><%= review.author.username %></strong></div>
+                            <span><em><%= review.updatedAt.toDateString() %></em></span>
+                        </div>
+                        <div class="col-md-9">
+                            <p style="text-align: justify; word-wrap: break-word;">
+                                <%= review.text %>
+                            </p>
+                            <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
+                            <a class="btn btn-xs btn-warning"
+                               href="/foods/<%=food._id %>/reviews/<%=review._id %>/edit">Edit</a>
+                            <form class="delete-form" action="/foods/<%=food._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                                <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                            </form>
+                            <% } %>
+                        </div>
+                    </div>
+                    <hr>
+                    <% }); %>
+                    <div style="margin-bottom: 10px;">
+                        <h4><a href="/foods/<%= food._id %>/reviews"><i class="fas fa-search" aria-hidden="true"></i> See all reviews</a></h4>
+                    </div>
+                    <% } %>
+                    <div>
+                        <a class="btn btn-primary btn-lg <% if (currentUser && food.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>" href="/foods/<%= food._id %>/reviews/new">
+                            Write a New Review</a>
+                    </div>
+                </div>
+            </div>
+		
+      <!--COMMENT SECTION START-->
+		<div class="card">
+			<div class="text-right">
+				<a class="btn btn-primary float-right" data-toggle="collapse" 
+				   href="#collapseComment" role="button" aria-expanded="false" 
+				   aria-controls="collapseComment"><i class="fas fa-plus"></i> Add new Comment</a>
+			</div>
+			
+			 <!--Comment section title-->
+			<h4 class="font-weight-bold">Comments <i class="fas fa-comments"></i></h4>
+			
+			  <!--Collapse Add a comment form START-->
+			<div class="collapse" id="collapseComment">
+               <div class="card card-body">
+				   
+             <!--If the user is not logged in, direct him to the login page-->
+                  <% if(!currentUser) { %>
+      <h5>You need to login before you can comment. <a href="/login">Click here</a> to go to the login page.</h5>
+        <% } %>
+				   
+			  <!--If the user is logged in, show the new comment form-->
+				   <% if(currentUser) { %>
+      <h4>Write your comment <i class="fas fa-pen"></i></h4>
+      <form action="/foods/<%= food._id %>/comments" method="POST" id="new-comment">
+        <div class="form-group">
+          <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+        </div>
+		<div class="form-group">
+			<textarea required class="form-control" id="new-comment-input" name="comment[text]" placeholder="Write your comment here.." rows="5" cols="70"></textarea>
+				</div>
+        <div class="form-group">
+			<button class="btn btn-success">Comment <i class="fas fa-comments"></i></button>
+		</div>
+      </form>
+        <% } %>
+               </div>
+            </div>
+			 <!--Collapse Add a comment form END-->
+			
+		  <hr>
+			
+	<!--Check if there are comments, if there are none say no comments.-->
+	<div class="chkcomments">
+		<% if (food.comments.length === 0) { %>
+	  <em style="color: grey;">No comments yet.</em>
+		<% } %>
+	</div>
+		
+	 <!--Display comments by looping through them-->
+			<div id="comment-list">
+			
+				<% for(const comment of food.comments){ %>
+			<div class="row">
+				<div class="col-md-12">
+					<h5 style="font-weight: 700; color: red"><%= comment.author.username %></h5> 
+					<span class="float-right"><%= moment(comment.createdAt).fromNow() %></span>
+					<p><%= comment.text %></p>
+				<% if(currentUser && food.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+<a class="btn btn-warning btn-sm" data-toggle="collapse" href="#collapseEdit<%=comment._id %>" role="button" aria-expanded="false" aria-controls="collapseEdit">Edit</a>
+					
+<form id="delete-item-form" class="delete-form" action="/foods/<%= food._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+     <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+ </form>
+
+<div class="collapse" id="collapseEdit<%=comment._id %>">
+  <div class="card card-body">
+    <form action="/foods/<%= food._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" class="edit-item-form">
+        <div class="form-group">
+          <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+        </div>
+		<div class="form-group">
+			<textarea required class="form-control" name="comment[text]" value="<%= comment.text %>" rows="3" cols="70"></textarea>
+				</div>
+        <div class="form-group">
+			<button class="btn btn-success">Comment <i class="fas fa-comments"></i></button>
+		</div>
+      </form>
+  </div>
+</div>
+
+               <% } %>
+					<hr>
+				</div>
+				</div>
+		<% } %> 
+			</div>
+		</div>
+    </div>
+</div>
+
+
+<!-- food likes modal -->
+
+<div class="modal fade" id="foodLikes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">FeastOn likes: <%= food.likes.length %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table>
+			<thead>
+				<tr>
+					<th>Liked By:</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% for(const like of food.likes){ %>
+				<tr>
+					<td><span class="badge"><i class="far fa-id-badge"></i></span> <%= like.username %> </td>
+				</tr>
+				<% } %>
+				<% if(food.likes.length === 0){ %>
+				  <tr>
+					  <td class="font-italic">No likes yet</td>
+				  </tr>
+				<% } %>
+			</tbody>
+		 </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<%- include("../partials/footer") %>

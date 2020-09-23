@@ -1,0 +1,117 @@
+body {
+	padding-top: 70px;
+	background-image: url('https://source.unsplash.com/EWDvHNNfUmQ');
+	width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+	font-family: 'Exo 2', sans-serif;
+}
+
+.jumbotron {
+	background-image: url("https://source.unsplash.com/Xm8XD2b9AUs");
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+    color: white;
+	margin-left:0; 
+}
+
+.background {
+	background-image: url('https://source.unsplash.com/8FWQQXMspEM');
+	background-position: center center;
+	background-size: cover;
+	background-position: no-repeat
+}
+
+
+.navbar-custom {
+    background-color: #F5DEB3;
+}
+
+#mainNavbar .nav-link {
+    color: #800000;
+	
+}
+
+#mainNavbar .nav-link:hover {
+	color: #800000;
+	font-weight:bold;
+}
+
+#mainNavbar .navbar-brand {
+    color: #800000;
+	font-weight: bolder;
+	font-size: 20px;
+		
+}
+
+
+/* .navbar.scrolled {
+    background: ;
+    transition: background 500ms;
+}	 */
+
+.caption{
+	padding:9px
+}
+
+.delete-form {
+	display:inline;
+}
+ 
+.img-thumbnail {
+	padding:0;
+}
+
+#img{
+	width: 100%; 
+	height: 450px; 
+	object-fit: cover
+}
+
+.checked {
+    color: orange;
+}
+
+.btn:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+
+.fa-envelope {
+	color: red;
+}
+
+.fa-phone-alt {
+	color: black;
+}
+
+.fa-whatsapp {
+	color: green;
+}
+
+.fa-instagram {
+	color: purple;
+}
+
+.fa-twitter {
+	color: blue;
+}
+.fa-kiss-wink-heart {
+	color: red;
+}
+
+.dropdown-item:hover {
+	color: maroon;
+	font-size:17px;
+	font-weight: bold;
+}
