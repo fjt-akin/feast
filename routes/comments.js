@@ -1,10 +1,10 @@
 const express    = require("express"),
 	  router     = express.Router({mergeParams: true}),
 	  Food       = require("../models/food"),
-      Comment    = require("../models/comment"),
-      User       = require("../models/user"),
+          Comment    = require("../models/comment"),
+          User       = require("../models/user"),
 	  mw         = require("../middleware"),
-      moment     = require('moment');
+          moment     = require('moment');
 
 
 //COMMENT NEW ROUTE
