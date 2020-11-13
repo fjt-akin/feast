@@ -6,13 +6,8 @@ $(function () {
             });
         });
 
-<<<<<<< HEAD
-=======
-$('#flash').fadeOut(3000)
 
-
-        //POST COMMENT
->>>>>>> a81552a794d361c20c7e5dc788b54a155dfe0922
+      //POST COMMENT
 	$('#new-comment').submit(function(e){
 	e.preventDefault();
 	let comment = $(this).serialize();
