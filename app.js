@@ -20,9 +20,9 @@ require('dotenv').config({path:__dirname+'/../.env'})
 		indexRoutes   = require("./routes/index"),
 		reviewRoutes  = require("./routes/reviews")
 
-
+let url = process.env.FEAST_ON_DB || "mongodb://localhost:27017/feastOn"
   
-mongoose.connect(process.env.FEAST_ON_DB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).then(()=>{
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true}).then(()=>{
 console.log("connected to DB!");
 }).catch(err => {
 console.log("ERROR", err.message);
