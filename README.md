@@ -1,1 +1,1 @@
-FOR MY FOOD BLOG, Still a prototype, yet to be completed but almost completed.
+A demo for a Food Business blog post
