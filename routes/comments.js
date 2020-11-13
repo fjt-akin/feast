@@ -51,7 +51,6 @@ router.post("/", mw.isLoggedIn,  async (req, res, next)=>{
 
 //COMMENT EDIT ROUTE
 router.get("/:comment_id/edit", mw.chkCommentOwnership,  (req, res)=>{
-	console.log(req.comment)
 	Food.findById(req.params.id, async (err, food)=>{
 		if(err || !food){
 			console.log(err);
@@ -71,7 +70,6 @@ router.get("/:comment_id/edit", mw.chkCommentOwnership,  (req, res)=>{
 
 //COMMENT UPDATE
  router.put("/:comment_id", mw.chkCommentOwnership, (req, res)=>{
-	 
 Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, {new: true}, async  (err, updatedComment)=>{
 	try {
 		let food = await Food.findById(req.params.id);

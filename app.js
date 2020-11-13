@@ -10,7 +10,9 @@ const express         = require("express"),
       Food            = require("./models/food"),
       Comment         = require("./models/comment"),
       User            = require("./models/user");
-	  
+
+
+require('dotenv').config({path:__dirname+'/../.env'}) 
 	  	  
 // requiring routes
   const foodRoutes    = require("./routes/foods"),
@@ -20,18 +22,7 @@ const express         = require("express"),
 
 
   
-  //SOCKET.IO SETUP
-const server = require('http').createServer(app);
- global.io = require('socket.io')(server);
-//anytime a user loads our website it calls this function and gives each user a personal socket that sends a message to the user
-
-io.on('connection', socket =>{
- console.log('a user is connected')
-})
-  
-  
-  
-mongoose.connect("mongodb://localhost:27017/feastOn", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).then(()=>{
+mongoose.connect(process.env.FEAST_ON_DB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).then(()=>{
 console.log("connected to DB!");
 }).catch(err => {
 console.log("ERROR", err.message);
@@ -72,11 +63,6 @@ app.use(function(req, res, next){
    next();
 });
 
-app.use(function(req, res, next) {
-    req.io = io;
-    next();
-	// then in any express route handler, you can use req.io.emit(...)
-});
 
 //REQUIRING ROUTES
 app.use("/", indexRoutes);
@@ -84,6 +70,7 @@ app.use("/foods", foodRoutes);
 app.use("/foods/:id/comments", commentRoutes);
 app.use("/foods/:id/reviews", reviewRoutes);
 
-server.listen(process.env.PORT || 3000, process.env.IP, ()=>{
+
+app.listen(process.env.PORT || 3000, process.env.IP, ()=>{
 	console.log("FeastOn 2 Server Running!!")
 })

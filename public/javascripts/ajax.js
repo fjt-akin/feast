@@ -1,13 +1,10 @@
+
 $(function () {
             $(document).scroll(function () {
                 var $nav = $("#mainNavbar");
                 $nav.toggleClass("scrolled", $(this).scrollTop() > $nav.height());
             });
         });
-
-$('#flash').fadeOut(3000)
-
-
 
 	$('#new-comment').submit(function(e){
 	e.preventDefault();
@@ -68,7 +65,7 @@ $('#comment-list').on('submit', '.edit-item-form', function(event){
 		data: comment,
 		type: 'PUT',
 		originalItem: $originalItem,
-		success: function(data){
+		success: function (data){
 			this.originalItem.html(
 			`
 
@@ -115,7 +112,6 @@ $('#comment-list').on('submit', '#delete-item-form', function(e){
 	if(confirmResponse){
 		let actionUrl = $(this).attr('action');
 		$itemToDelete = $(this).closest('.row');
-		debugger
 		$.ajax({
 			url: actionUrl,
 			type: 'DELETE',
@@ -127,4 +123,49 @@ $('#comment-list').on('submit', '#delete-item-form', function(e){
 	}
 	
 	
+})
+
+
+//LIKES BUTTON
+
+$('.likeSection').on('submit', '#likeButton', function(e){
+	e.preventDefault();
+	let actionUrl = $(this).attr('action');
+	$originalLike = $(this).parent();
+	$.ajax({
+		url: actionUrl,
+		type: 'POST',
+		originalLike: $originalLike,
+		success: function(data){
+			this.originalLike.html(
+		`
+         <form action="/foods/${data.food._id}/like" method="POST" id="likeButton">
+						<div class="d-flex" role="group">
+                        
+                       ${`(${data.currentUser} && ${data.food.likes}.some(function (like) {
+                                 return like.equals(${data.currentUser._id})
+                             }))` ? 
+							`<button class="btn btn-sm btn-primary">
+								<i class="far fa-thumbs-up"></i> Liked (${data.food.likes.length})
+							</button>` :
+							
+								`<button class="btn btn-sm btn-secondary">
+								<i class="far fa-thumbs-up"></i> Like (${data.food.likes.length})
+							</button>` }
+							
+							<button type="button" class="btn btn-primary" data-toggle="modal" 
+									datatarget="#foodLikes">See more details</button>
+						</div>
+					   </form>
+        `
+		)
+			$('#totalLikes').html(
+			`
+             <button type="button" class="btn btn-primary" data-toggle="modal" 
+							data-target="#foodLikes"> <span>Total likes: <i class="far fa-thumbs-up"></i>
+						${data.food.likes.length}</span> 
+                    </button>
+            `)
+		}
+	})
 })

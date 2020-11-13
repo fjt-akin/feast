@@ -23,13 +23,10 @@ const upload = multer({ storage: storage, fileFilter: imageFilter})
 
 const cloudinary = require('cloudinary');
 cloudinary.config({ 
-  cloud_name: process.env.CLOUDNAME, 
-  api_key: process.env.APIKEY, 
-  api_secret: process.env.APISECRET
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY, 
+  api_secret: process.env.API_SECRET
 });
-
-
-
 
 // INDEX ROUTE
 router.get("/", (req, res)=>{
@@ -169,29 +166,30 @@ router.put("/:id", mw.chkFoodOwnership, upload.single('image'), (req, res)=>{
 
 
 //DESTROY ROUTE
-router.delete("/:id", mw.chkFoodOwnership, (req,res)=>{
-	Food.findById(req.params.id, async(err, foundFood)=>{
+router.delete("/:id", mw.chkFoodOwnership, (req, res)=>{
+	Food.findById(req.params.id, async (err, foundFood)=>{
 		if(err || !foundFood){
 			req.flash("error", err.message);
 			return res.redirect("back")
 		}
 		try{
-			await Comment.remove({"_id": {$in: food.comments}});
-			await Review.remove({"_id": {$in: food.reviews}});
+			await Comment.remove({"_id": {$in: foundFood.comments}});
+			await Review.remove({"_id": {$in: foundFood.reviews}});
 			await cloudinary.v2.uploader.destroy(foundFood.imageId);
 			foundFood.remove();
 			req.flash("success", "food deleted successfully!")
 		    res.redirect("/foods")  
 		}catch(err){
-			console.log("error");
+			console.log("error", err.message);
 			req.flash("error", err.message);
 			return res.redirect("back");
 		}
 	});
 });
 
-// FOOD LIKES
 
+
+// FOOD LIKES
 router.post("/:id/like", mw.isLoggedIn, (req, res)=>{
 	Food.findById(req.params.id, (err, food)=>{
 		if(err){
