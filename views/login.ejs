@@ -2,23 +2,45 @@
 
 <div class="row">
 	<div class="col-12">
-		<div style="max-width: 300px; margin:60px auto">
+		<div class="card" id="neat">
 		<h1 class="text-center text-danger font-weight-bold mb-4">Sign In</h1>
+		<div class="card-body">
 		<form action="/login" method="POST">
 			<div class="form-group">
-			<input type="text" class="form-control" name="username" placeholder="username">
+			<label for="username">UserName</label>
+			<div class="input-group">
+			<div class="input-group-prepend">
+			<span class="input-group-text"><i class="fas fa-user"></i></span>
+		  </div>
+			<input id="username" type="text" class="form-control" name="username" placeholder="username">
+			</div>
         </div>
 		<div class="form-group">
-			<input type="password" class="form-control" name="password" placeholder="password">
+			<label for="pword">Password</label>
+			<div class="input-group">
+			<div class="input-group-prepend">
+			<span class="input-group-text"><i class="fas fa-lock"></i></span>
+		    </div>
+				<input id="pword" type="password" class="form-control" name="password" placeholder="password">
+			</div>
         </div>
 		<div class="form-group">
-			<input type="submit" class="btn btn-info btn-block" value="login!">
+			<input type="submit" class=" form-control btn btn-danger btn-block" value="login!">
         </div>
 		</form>
+		</div>
+		<div id="hr">
+			<hr>
+		</div>
 		<div class="text-center">
-			<a class="lead" href="/forgot">Forgotten password?</a>
+			<p id="reg" class="lead"> New to feastOn? <a href="/register"><span id="sign">Sign up!</span></a></p>
+			
+		</div>	
 		</div>
+		<div class="text-center">
+			<a class="lead" href="/forgot">Forgot your password?</a>
 		</div>
+		
     </div>
 </div>
 

@@ -2,21 +2,51 @@
 
 <div class="row">
 	<div class="col-12">
-		<div style="max-width: 300px; margin:25px auto">
+		<div class="card" id="neat">
 			<h1 class="text-center text-danger font-weight-bold mb-4">Sign Up</h1>
 		<div>
-		<form action="/register" method="POST">
-		<div class="form-group">
+		
+		<div class="card-body">
+			<form action="/register" method="POST">
+			<div class="form-group">
 			<label for="userName">Username:</label>
-			<input type="text" id="userName" required class="form-control" name="username" placeholder="username">
+		   <div class="input-group">
+			  <div class="input-group-prepend">
+				<span class="input-group-text"><i class="fas fa-user"></i></span>
+			  </div>
+			  <input type="text" id="userName" required class="form-control" name="username" placeholder="username">
+			  <div class="invalid-feedback">
+				Please choose a username.
+			  </div>
+			</div>
         </div>
 		<div class="form-group">
 			<label for="password">Password:</label>
-			<input type="password" id="password" required class="form-control" name="password" placeholder="password">
+			<div class="input-group">
+			  <div class="input-group-prepend">
+				<span class="input-group-text"><i class="fas fa-lock"></i></span>
+			  </div>
+			  <input type="password" id="password" required class="form-control" 
+					 name="password" placeholder="password">
+			  <div class="invalid-feedback">
+				
+			  </div>
+			</div>
         </div>
+				
 		<div class="form-group">
 			<label for="email">Email:</label>
-		   <input type="email" id="email" required class="form-control" name="email" placeholder="your email address">
+			<div class="input-group">
+		  <div class="input-group-prepend">
+			<span class="input-group-text">@</span>
+		  </div>
+		   <input type="email" id="email" required class="form-control" name="email" 
+				  placeholder="your email address">
+		  <div class="invalid-feedback">
+			Please make sure your email is correct.
+		  </div>
+		</div>
+		  
         </div>
 		<div class="form-group">
 			<label for="adminCode">Admin code</label>
@@ -24,9 +54,12 @@
 				   placeholder="for administrators only" >
 		</div>
 		<div class="form-group">
-			<input type="submit" class="btn btn-info btn-block" value="Sign Up">
+			<input type="submit" class="btn btn-danger btn-block" value="Sign Up">
         </div>
 		</form>
+		</div>
+		
+		
 		</div>
 		</div>
 		

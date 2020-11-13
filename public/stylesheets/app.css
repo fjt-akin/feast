@@ -115,3 +115,28 @@ body {
 	font-size:17px;
 	font-weight: bold;
 }
+
+#neat {
+	max-width:400px;
+	margin: 30px auto;
+}
+
+.card{
+	border-radius: 20px;
+}
+
+#sign {
+	color: #e63946;
+}
+
+#reg a {
+	text-decoration: none;
+}
+
+#reg a:hover {
+	font-size: 1em;
+}
+
+#hr hr {
+	margin: 2px 0;
+}
