@@ -6,6 +6,13 @@ $(function () {
             });
         });
 
+<<<<<<< HEAD
+=======
+$('#flash').fadeOut(3000)
+
+
+        //POST COMMENT
+>>>>>>> a81552a794d361c20c7e5dc788b54a155dfe0922
 	$('#new-comment').submit(function(e){
 	e.preventDefault();
 	let comment = $(this).serialize();
@@ -54,7 +61,7 @@ $('.chkcomments').remove()
 
 
 
-
+//UPDATE COMMENT
 $('#comment-list').on('submit', '.edit-item-form', function(event){
 	event.preventDefault();
 	let comment = $(this).serialize();
