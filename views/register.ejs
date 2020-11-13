@@ -20,19 +20,19 @@
 			  </div>
 			</div>
         </div>
+				
 		<div class="form-group">
-			<label for="password">Password:</label>
+			<label for="pword">Password:</label>
 			<div class="input-group">
 			  <div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-lock"></i></span>
 			  </div>
-			  <input type="password" id="password" required class="form-control" 
-					 name="password" placeholder="password">
-			  <div class="invalid-feedback">
-				
-			  </div>
-			</div>
+			  <input type="password" id="pword"  class="form-control" name="password" placeholder="password" minlength="5"  maxlength="12" required>
+				<div class="invalid-feedback">
+			Please make sure your password length is between 5 and 12 characters.
+		  </div>
         </div>
+	 </div>
 				
 		<div class="form-group">
 			<label for="email">Email:</label>
@@ -48,11 +48,11 @@
 		</div>
 		  
         </div>
-		<!-- <div class="form-group">
+		<div class="form-group d-none">
 			<label for="adminCode">Admin code</label>
 			<input class="form-control" id="adminCode" type="text" name="adminCode" 
 				   placeholder="for administrators only" >
-		</div> -->
+		</div>
 		<div class="form-group">
 			<input type="submit" class="btn btn-danger btn-block" value="Sign Up">
         </div>
